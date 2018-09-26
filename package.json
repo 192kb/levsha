@@ -1,18 +1,20 @@
 {
-  "name": "framework7-react-app-template",
-  "version": "3.0.0",
+  "name": "levsha",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "framework7": "^3.0.1",
+    "express": "^4.16.3",
+    "framework7": "^3.4.0",
     "framework7-icons": "^0.9.1",
-    "framework7-react": "^3.0.1",
+    "framework7-react": "^3.4.0",
     "material-design-icons": "^3.0.1",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
-    "react-scripts": "^2.0.0-next.b2fd8db8"
+    "mysql": "^2.16.0",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
+    "react-scripts": "^2.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=4000 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
@@ -27,6 +29,7 @@
     "development": [
       "last 2 chrome versions",
       "last 2 firefox versions",
+      "last safari version",
       "last 2 edge versions"
     ],
     "production": [
@@ -35,5 +38,6 @@
       "Firefox ESR",
       "not ie < 11"
     ]
-  }
+  },
+  "proxy": "http://localhost:8080"
 }
