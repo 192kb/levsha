@@ -3,7 +3,8 @@ const bodyParser = require('body-parser')
 const path = require('path');
 const app = express();
 const mysql = require('mysql');
-import { credetials } from './credentials/db';
+let { credetials } = require('./credentials/db');
+let { server_port } = require('./configuration');
 
 const connection = mysql.createConnection({
   host     : credetials.host,
@@ -11,16 +12,7 @@ const connection = mysql.createConnection({
   password : credetials.password,
   database : credetials.database
 });
-
-connection.connect()
-
-connection.query('SELECT 1 + 1 AS solution', function (err, rows, fields) {
-  if (err) throw err
-
-  console.log('The solution is: ', rows[0].solution)
-})
-
-connection.end()
+connection.connect();
 
 app.use(express.static(path.join(__dirname, 'build')));
 
@@ -28,8 +20,18 @@ app.get('/ping', function (req, res) {
  return res.send('pong');
 });
 
+app.get('/city', function (req, res) {
+  connection.query('select * from city', function (err, result) {
+    if (err) throw err
+    
+    return res.send(result); 
+  });
+});
+
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-app.listen(process.env.PORT || 8080);
+app.listen(server_port, () => {
+  console.log('Listening on localhost: '+server_port)
+})
