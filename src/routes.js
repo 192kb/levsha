@@ -1,10 +1,10 @@
 import HomePage from './components/pages/HomePage';
 import AboutPage from './components/pages/AboutPage';
-import FormPage from './components/pages/FormPage';
+import RegisterPage from './components/pages/RegisterPage';
 import DynamicRoutePage from './components/pages/DynamicRoutePage';
 import NotFoundPage from './components/pages/NotFoundPage';
-import PanelLeftPage from './components/pages/PanelLeftPage';
-import PanelRightPage from './components/pages/PanelRightPage';
+import PanelMenuPage from './components/pages/PanelMenuPage';
+import PanelFilterPage from './components/pages/PanelFilterPage';
 
 export default [
   {
@@ -12,20 +12,20 @@ export default [
     component: HomePage,
   },
   {
+    path: '/register/',
+    component: RegisterPage,
+  },
+  {
     path: '/panel-left/',
-    component: PanelLeftPage,
+    component: PanelMenuPage,
   },
   {
     path: '/panel-right/',
-    component: PanelRightPage,
+    component: PanelFilterPage,
   },
   {
     path: '/about/',
     component: AboutPage,
-  },
-  {
-    path: '/form/',
-    component: FormPage,
   },
   {
     path: '/dynamic-route/blog/:blogId/post/:postId/',

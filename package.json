@@ -3,17 +3,29 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.18.0",
+    "bcrypt-nodejs": "0.0.3",
     "express": "^4.16.3",
+    "express-session": "^1.15.6",
     "framework7": "^3.4.0",
     "framework7-icons": "^0.9.1",
     "framework7-react": "^3.4.0",
     "material-design-icons": "^3.0.1",
     "mysql": "^2.16.0",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
-    "react-scripts": "^2.0.1"
+    "react-phone-number-input": "^2.2.10",
+    "react-scripts": "^2.0.4",
+    "session-file-store": "^1.2.0",
+    "sqlstring": "^2.3.1",
+    "uuid": "^3.3.2"
   },
   "scripts": {
+    "production": "nodemon --ignore sessions/ --ignore src/ production.js",
+    "backend": "nodemon --ignore sessions/ server.js",
+    "frontend": "PORT=4000 nodemon --ignore sessions/ start",
     "start": "PORT=4000 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
@@ -27,10 +39,9 @@
   },
   "browserslist": {
     "development": [
-      "last 2 chrome versions",
-      "last 2 firefox versions",
-      "last safari version",
-      "last 2 edge versions"
+      "last 1 chrome versions",
+      "last 1 firefox versions",
+      "last 1 ios_saf versions"
     ],
     "production": [
       ">1%",
@@ -39,5 +50,5 @@
       "not ie < 11"
     ]
   },
-  "proxy": "http://localhost:8080"
+  "proxy": "http://localhost:4001"
 }
