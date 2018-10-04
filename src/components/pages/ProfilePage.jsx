@@ -3,7 +3,8 @@ import { Page, Navbar, Link, Block, BlockTitle } from 'framework7-react';
 
 export default () => (
   <Page>
-    <Navbar title="About" backLink="Back"></Navbar>
+    <Navbar title="Профиль" backLink="Назад">
+    </Navbar>
     <BlockTitle>About My App</BlockTitle>
     <Block strong>
       <p>Here is About page!</p>

@@ -1,8 +1,8 @@
-const { server_api } = require('../configuration')
+const { serverApi } = require('../configuration')
 
 export default {
-    login: server_api+'/login/',
-    register: server_api+'/register/',
-    getAllCities: server_api+'/city/',
-
+    login: serverApi+'/login/',
+    register: serverApi+'/register/',
+    getAllCities: serverApi+'/city/',
+    user: serverApi+'/user/',
 }

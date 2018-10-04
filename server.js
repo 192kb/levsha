@@ -11,8 +11,8 @@ const LocalStrategy = require('passport-local').Strategy
 const sqlString = require('sqlstring')
 
 const { credetials } = require('./credentials/db')
-const { session_secret, password_hash_function } = require('./credentials/salt')
-const { server_port } = require('./src/configuration')
+const { sessionSecret, passwordHashFunction } = require('./credentials/salt')
+const { serverPort, allowedOrigins, cookieMaxAge } = require('./src/configuration')
 
 const connection = mysql.createConnection({
   host     : credetials.host,
@@ -27,7 +27,6 @@ app.use(bodyParser.json())
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
- 
 
 /// SESSION
 
@@ -36,28 +35,33 @@ app.use(session({
     return uuid() // use UUIDs for session IDs
   },
   store: new FileStore(),
-  secret: session_secret,
+  secret: sessionSecret,
   resave: false,
+  secure: true,
   saveUninitialized: true
 }))
 
 /// CORS
 
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
+  if (!allowedOrigins.includes(req.headers.origin)) {
+    next();
+    return;
+  }
+  res.header("Access-Control-Allow-Origin", req.headers.origin);
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header('Access-Control-Allow-Credentials', true);
   next();
 });
 
 /// AUTH
 
 app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.session({cookie: { maxAge : cookieMaxAge }}));
 
 passport.use(new LocalStrategy( { usernameField: 'phone', passwordField: 'password', session: true }, (phone, password, done) => {
-    const password_hash = password_hash_function(password)
-    
-    const sql = sqlString.format('SELECT id FROM user WHERE phone = ? AND password_hash = ? LIMIT 1', [phone, password_hash])
+    const passwordHash = passwordHashFunction(password)
+    const sql = sqlString.format('select * from user where phone = ? and password_hash = ? and is_deleted = 0 limit 1', [phone, passwordHash])
     connection.query(sql, function (err, users) {
       if (err) return done(err)
       if (!users[0]) { return done(null, false); }
@@ -73,7 +77,7 @@ passport.serializeUser((user, done) => {
 })
 
 passport.deserializeUser(function(userID, done) {
-  const sql = sqlString.format('SELECT id FROM user WHERE id = ? LIMIT 1', userID)
+  const sql = sqlString.format('select * from user where id = ? limit 1', userID)
   connection.query(sql, function (err, users) {
     if (err) return done(err)
     done(null, users[0])
@@ -90,7 +94,7 @@ app.post('/login', (req, res, next) => {
         success: false,
         error: info
       })
-
+      
       return res.send({
         success: true,
         user: user
@@ -99,15 +103,20 @@ app.post('/login', (req, res, next) => {
   })(req, res, next)
 })
 
+app.get('/logout', function(req, res){
+  req.logout()
+  res.end()
+})
+
 app.post('/register', (req, res, next) => {
   var query = {
     firstname: req.body.firstname,
     lastname: req.body.lastname,
     phone: req.body.phone,
-    password_hash: password_hash_function(req.body.password),
+    password_hash: passwordHashFunction(req.body.password),
     city_id: req.body.city_id
   }
-  var sql = sqlString.format('INSERT INTO user SET ?', query)
+  var sql = sqlString.format('insert into user set ?', query)
   connection.query(sql, function (err, result) {
     if (err) return res.send(err)
     
@@ -145,27 +154,40 @@ app.get('/category', function (req, res) {
   })
 })
 
+app.get('/user', checkAuthentication, function (req, res) {
+  const sql = sqlString.format('select id, photo_link, phone, firstname, lastname, secondname, vk_profile, ok_profile, fb_profile, ig_profile, tw_profile, yt_profile, be_profile, li_profile, hh_profile, phone_confirmed, email, email_confirmed from user where id = ? LIMIT 1', req.session.passport.user)
+
+  connection.query(sql, function (err, result) {
+    if (err) return res.send(err)
+    
+    return res.send(result[0])
+  })
+})
+
+app.get('/user/:userID', function (req, res) {
+  const sql = sqlString.format('select id, photo_link, phone, firstname, lastname, surname, vk_profile, ok_profile, fb_profile, ig_profile, tw_profile, yt_profile, be_profile, li_profile, hh_profile from user where id = ? AND is_deleted = 0 LIMIT 1', req.params.userID)
+    connection.query(sql, function (err, result) {
+      if (err) return res.send(err)
+      
+      return res.send(result)
+  })
+})
+
 app.get('/', function (req, res) {
   res.redirect('https://levsha.online')
 })
 
-app.get('/authrequired', (req, res) => {
-  auth_control(req, res, {
-    
-  })
-})
-
-function auth_control(req, res, completion) {
-  if(req.isAuthenticated()) {
-    completion()
+function checkAuthentication(req,res,next){
+  if(req.isAuthenticated()){
+    next()
   } else {
-    res.send(401, 'Unauthorized')
+    res.status(401).send({status: 'no-auth'})
   }
 }
 
 /// APPLICATION AVALIBILITY
 
-app.listen(server_port, () => {
-  console.log('Listening on localhost: '+server_port)
+app.listen(serverPort, () => {
+  console.log('Listening on localhost: '+serverPort)
   console.log('A api now available at https://api.levsha.online/')
 })

@@ -1,6 +1,6 @@
 import HomePage from './components/pages/HomePage';
-import AboutPage from './components/pages/AboutPage';
-import RegisterPage from './components/pages/RegisterPage';
+import ProfilePage from './components/pages/ProfilePage';
+import CreateTaskPage from './components/pages/CreateTaskPage';
 import DynamicRoutePage from './components/pages/DynamicRoutePage';
 import NotFoundPage from './components/pages/NotFoundPage';
 import PanelMenuPage from './components/pages/PanelMenuPage';
@@ -12,8 +12,8 @@ export default [
     component: HomePage,
   },
   {
-    path: '/register/',
-    component: RegisterPage,
+    path: '/task/add/',
+    component: CreateTaskPage,
   },
   {
     path: '/panel-left/',
@@ -24,8 +24,8 @@ export default [
     component: PanelFilterPage,
   },
   {
-    path: '/about/',
-    component: AboutPage,
+    path: '/profile/',
+    component: ProfilePage,
   },
   {
     path: '/dynamic-route/blog/:blogId/post/:postId/',

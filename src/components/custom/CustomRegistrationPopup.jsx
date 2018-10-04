@@ -20,7 +20,7 @@ import { formatPhoneNumber } from 'react-phone-number-input'
 
 import { capitalize, sqlErrorHumanization, errorNotification } from '../../utility/helpers'
 import { apiAvailableCities, apiRegister } from '../../utility/api'
-const { min_password_length } = require('../../configuration');
+const { minPasswordLength } = require('../../configuration');
 
 
 function ListCityOptoins(props) {
@@ -127,10 +127,10 @@ export default class extends Popup {
                             }}></Input>
                         </ListItem>
                         <ListItem>
-                            <Input required pattern={'.{'+min_password_length+',}'} clearButton type="password" placeholder="Введите пароль еще раз" value={this.state.password_repeat} onInput={(e) => {
+                            <Input required pattern={'.{'+minPasswordLength+',}'} clearButton type="password" placeholder="Введите пароль еще раз" value={this.state.password_repeat} onInput={(e) => {
                                 this.setState({ password_repeat: e.target.value});
                             }} 
-                            errorMessage={'Не менее '+min_password_length+' символов, пароли должны совпадать'}
+                            errorMessage={'Не менее '+minPasswordLength+' символов, пароли должны совпадать'}
                             errorMessageForce={this.validatePassword.bind(this)()}></Input>
                         </ListItem>
                         <ListItem
@@ -151,7 +151,7 @@ export default class extends Popup {
 
     validatePassword() {
         if (this.state.password === '') { return false }
-        if (this.state.password.length < min_password_length) { return true }
+        if (this.state.password.length < minPasswordLength) { return true }
         if (this.state.password !== this.state.password_repeat) { return true }
     }
     
