@@ -52,7 +52,7 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.header('Access-Control-Allow-Credentials', true);
   next();
-});
+}); 
 
 /// AUTH
 
@@ -61,7 +61,7 @@ app.use(passport.session({cookie: { maxAge : cookieMaxAge }}));
 
 passport.use(new LocalStrategy( { usernameField: 'phone', passwordField: 'password', session: true }, (phone, password, done) => {
     const passwordHash = passwordHashFunction(password)
-    const sql = sqlString.format('select * from user where phone = ? and password_hash = ? and is_deleted = 0 limit 1', [phone, passwordHash])
+    const sql = sqlString.format('select id, city_id from user where phone = ? and password_hash = ? and is_deleted = 0 limit 1', [phone, passwordHash])
     connection.query(sql, function (err, users) {
       if (err) return done(err)
       if (!users[0]) { return done(null, false); }
@@ -105,7 +105,7 @@ app.post('/login', (req, res, next) => {
 
 app.get('/logout', function(req, res){
   req.logout()
-  res.end()
+  res.send({status: 'logged-out'})
 })
 
 app.post('/register', (req, res, next) => {
@@ -138,8 +138,9 @@ app.get('/city', function (req, res) {
   })
 })
 
-app.get('/location', function (req, res) {
-  connection.query('select * from location', function (err, result) {
+app.get('/city/:city_id/locations', function (req, res) {
+  const sql = sqlString.format('select * from location where city_id = ?', req.params.city_id)
+  connection.query(sql, function (err, result) {
     if (err) return res.send(err)
     
     return res.send(result)

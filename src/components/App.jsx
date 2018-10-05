@@ -30,11 +30,6 @@ export default function (props) {
         <View url="/panel-left/" />
       </Panel>
 
-      {/* Right Panel */}
-      <Panel right>
-        <View url="/panel-right/"/>
-      </Panel>
-
       {/* Main View */}
       <View id="main-view" url="/" main className="ios-edges"/>
 

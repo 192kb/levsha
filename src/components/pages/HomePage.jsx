@@ -1,5 +1,7 @@
 import React from 'react';
 import {
+    View,
+    Panel,
     Page,
     Navbar,
     NavLeft,
@@ -12,6 +14,9 @@ export default class extends React.Component {
   render() {
     return (
       <Page>
+      <Panel right>
+        <View url="/panel-right/"/>
+      </Panel>
       <Navbar>
         <NavLeft>
           <Link iconIos="f7:menu" iconMd="material:menu" panelOpen="left"></Link>

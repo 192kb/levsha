@@ -22,14 +22,14 @@ import { capitalize, sqlErrorHumanization, errorNotification } from '../../utili
 import { apiAvailableCities, apiRegister } from '../../utility/api'
 const { minPasswordLength } = require('../../configuration');
 
-
 function ListCityOptoins(props) {
     const listCities = props.cities.map(city => 
         <option key={uuid()} value={city.id}>{city.name}</option>
     )
 
     return (
-        <select name="city_id" defaultValue={props.selectedCity} onChange={(e) => {props.onChange(e)}}>
+        <select name="city_id" defaultValue={props.selectedCity || -1} onChange={(e) => {props.onChange(e)}}>
+            <option key="non-existent" value="-1" disabled>Выбрать</option>
             {listCities}
         </select>
     )

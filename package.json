@@ -17,7 +17,7 @@
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-phone-number-input": "^2.2.10",
-    "react-scripts": "^2.0.4",
+    "react-scripts": "^2.0.1",
     "session-file-store": "^1.2.0",
     "sqlstring": "^2.3.1",
     "uuid": "^3.3.2"

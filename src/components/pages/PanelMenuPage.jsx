@@ -1,6 +1,7 @@
 import React from 'react';
 import { Page, Navbar, List, ListItem, ListButton, Icon } from 'framework7-react';
-import { apiGetCurrentUserProfile } from '../../utility/api'
+import { apiGetCurrentUserProfile, apiLogout } from '../../utility/api'
+import { errorNotification } from '../../utility/helpers'
 
 export default class extends React.Component {
   constructor(props) {
@@ -56,6 +57,10 @@ export default class extends React.Component {
               subtitle={this.state.user.phone} >
               <UserAvatar url={this.state.user.photo_url} width="40" slot="media" />
             </ListItem>
+            <ListButton onClick={this.logout.bind(this)} title="Выход"></ListButton>
+          </List>
+          <List>
+            <ListItem link="/task/add/" title="Создать задание" view="#main-view" panelClose></ListItem>
           </List>
         </Page>
       )
@@ -71,5 +76,20 @@ export default class extends React.Component {
         </Page>
       )
     }
+  }
+
+  logout() {
+    apiLogout()
+      .then(_ => {
+        window.userID = undefined
+        window.location.reload()
+      }).catch(error => {
+        console.log(error)
+
+        const self = this;
+        const app = self.$f7;
+
+        errorNotification(app, error)
+      })
   }
 }
