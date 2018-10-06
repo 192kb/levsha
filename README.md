@@ -1,28 +1,17 @@
-# Framework7 v3 React App Template
+# Социальный эксперимент – Проект Левша
 
-To get started, clone this repo as whatever you want to name your app:
+## Цель
+Дать возможность жителям города Бийск быстро решать текущие бытовые проблемы за небольшие деньги
 
-```
-git clone https://github.com/framework7io/framework7-react-app-template/ my-app
-```
+## Задача
+Создание бесплатного сервиса для размещения объявлений о небольших заказах частных лиц, на выполнение которых не требуется квалификации и больших трудозатрат.
 
-Running the app:
+## Решение
+Для сети интернет создается веб-сайт на котором существует ряд категорий пользователей. Соотвественно, категории
 
-```
-npm install
-npm start
-```
-
-To build your app for deployment, run:
-
-```
-npm run build
-```
-
-The build folder will then contain all of your app's files, optimized and ready for deployment.
-
-This template was created with [Create React App](https://github.com/facebookincubator/create-react-app). It is suggested that you read more about Create React App to understand the full capabilities of the toolset.
-
-### Issues
-
-Please log any issues to the main [Framework7 repo](https://github.com/framework7io/framework7/issues).
+## Тезисы
+- Сервис реализуется путем ряда представлений информации и переходов между ними. 
+- Представления информации могут менять визуальный внешний вид. 
+- На одном экране (вкладке браузера) содержится одно представление.
+- Каждое представление состоит из компонентов. Компонент – переиспользуемый, упорядоченный набор (например, список задач) или единичный блок (например, описание задачи) отображения однотипной информации или форма для ее ввода.
+- Компонент может отображаться по-разному для разных категорий пользователей или других входных параметров. Ниже описание представлений и содержащихся в них компонентов с визуальными примерами для мобильной версии.
