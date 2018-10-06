@@ -10,6 +10,8 @@ import {
     Link
 } from 'framework7-react';
 
+const { brand } = require('../..configuration')
+
 export default class extends React.Component {
   render() {
     return (
@@ -21,7 +23,7 @@ export default class extends React.Component {
         <NavLeft>
           <Link iconIos="f7:menu" iconMd="material:menu" panelOpen="left"></Link>
         </NavLeft>
-        <NavTitle>Levsha</NavTitle>
+        <NavTitle>{brand}</NavTitle>
         <NavRight>
           <Link iconIos="f7:filter" iconMd="material:filter_list" panelOpen="right"></Link>
         </NavRight>

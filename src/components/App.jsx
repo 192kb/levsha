@@ -10,11 +10,13 @@ import routes from '../routes';
 import CustomLoginScreen from './custom/CustomLoginScreen';
 import CustomRegistrationPopup from './custom/CustomRegistrationPopup';
 
+const { brand } = require('../configuration')
+
 export default function (props) {
   // Framework7 parameters here
   const f7params = {
-    id: 'io.online.levsha', // App bundle ID
-    name: 'Levsha', // App name
+    id: 'io.online.'+brand, // App bundle ID
+    name: brand, // App name
     theme: 'ios', // Automatic theme detection
     // App routes
     routes,

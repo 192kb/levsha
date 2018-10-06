@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const path = require('path')
 
-const { productionPort } = require('./src/configuration')
+const { productionPort, productionHomeURL } = require('./src/configuration')
 
 app.use(express.static(path.join(__dirname, 'build')))
 
@@ -12,5 +12,5 @@ app.get('/', function (req, res) {
 
 app.listen(productionPort, () => {
     console.log('Listening on localhost: '+productionPort)
-    console.log('A api now available at https://api.levsha.online/')
+    console.log('A production served now at '+productionHomeURL)
 })

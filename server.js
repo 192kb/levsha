@@ -12,7 +12,7 @@ const sqlString = require('sqlstring')
 
 const { credetials } = require('./credentials/db')
 const { sessionSecret, passwordHashFunction } = require('./credentials/salt')
-const { serverPort, allowedOrigins, cookieMaxAge } = require('./src/configuration')
+const { serverPort, allowedOrigins, cookieMaxAge, serverApi, productionHomeURL } = require('./src/configuration')
 
 const connection = mysql.createConnection({
   host     : credetials.host,
@@ -175,7 +175,7 @@ app.get('/user/:userID', function (req, res) {
 })
 
 app.get('/', function (req, res) {
-  res.redirect('https://levsha.online')
+  res.redirect(productionHomeURL)
 })
 
 function checkAuthentication(req,res,next){
@@ -190,5 +190,5 @@ function checkAuthentication(req,res,next){
 
 app.listen(serverPort, () => {
   console.log('Listening on localhost: '+serverPort)
-  console.log('A api now available at https://api.levsha.online/')
+  console.log('A api now available at '+serverApi)
 })
