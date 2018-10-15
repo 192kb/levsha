@@ -93,7 +93,7 @@ export default class extends React.Component {
     const self = this;
     const app = self.$f7;
     // Default
-    self.calendarDefault = app.calendar.create({
+    self.calendar = app.calendar.create({
       inputEl: '#calendar-default',
       dateFormat: 'DD, dd MM, yyyy',
       monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август' , 'Сентябрь' , 'Октябрь', 'Ноябрь', 'Декабрь'],
@@ -154,9 +154,11 @@ export default class extends React.Component {
           <ListItem>
             <Label>Описание</Label>
              <Input 
-              required validate errorMessage="Обязательно для заполнения"
               type="textarea" 
               placeholder="Подробнее опишите задание, чтобы исполнитель максимально точно его понял" 
+              required 
+              validate 
+              errorMessage="Обязательно для заполнения"
               value={this.state.description} onInput={(e) => {
                 this.setState({description: e.target.value});
               }} />
@@ -166,15 +168,29 @@ export default class extends React.Component {
         <List>
           <ListItem>
             <Label>Дата</Label>
-            <Input type="text" placeholder="Укажите срок выполнения задания" value={this.state.date} inputId="calendar-default" />
+            <Input 
+              type="text" 
+              placeholder="Укажите срок выполнения задания" 
+              inputId="calendar-default" 
+              clearButton
+              value={this.state.date} 
+              onChange={(e) => {
+              let date = e.target.value
+              if (date == '') {
+                this.setState({date: undefined})
+              }
+              const self = this;
+
+              this.setState({date: this.calendar.getValue()})
+            }} />
           </ListItem>
           <ListItem>
             <Label>Время</Label>
             <Input 
               type="text" 
+              clearButton
               placeholder="12:00" 
               maxlength="5"
-              inputId="calendar-default" 
               pattern="^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$"
               validate
               errorMessage="Введите время в корректном формате, например 12:35"
@@ -183,6 +199,7 @@ export default class extends React.Component {
                 if (time.length > 2 && time[2] !== ':') {
                   time = time.substr(0, 2) + ':' + time.substr(2)
                 }
+
                 this.setState({time: time});
               }} />
           </ListItem>

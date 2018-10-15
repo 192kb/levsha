@@ -1,8 +1,9 @@
+export var baseDomainName = 'levsha.online'
+
 module.exports = {
     clientPort: 4000,
     serverPort: 4001,
     productionPort: 4002,
-    baseDomainName: 'levsha.online',
     serverApi: 'https://api.'+baseDomainName,
     productionHomeURL: 'https://.'+baseDomainName,
     minPassword_length: 4,

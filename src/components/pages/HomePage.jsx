@@ -10,7 +10,7 @@ import {
     Link
 } from 'framework7-react';
 
-const { brand } = require('../..configuration')
+const { brand } = require('../../configuration')
 
 export default class extends React.Component {
   render() {
